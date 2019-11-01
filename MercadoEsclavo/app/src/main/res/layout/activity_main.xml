@@ -6,11 +6,23 @@
     android:layout_height="match_parent"
     tools:context=".view.MainActivity">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/mainActivity_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:background="#2D45BD"
+        app:titleTextColor="#ffffff"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="?actionBarSize">
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/mainActivity_container">
+        android:id="@+id/mainActivity_container"
+        >
 
     </FrameLayout>
-
+    </ScrollView>
 </FrameLayout>

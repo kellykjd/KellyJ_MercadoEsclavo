@@ -1,7 +1,7 @@
 package com.example.recyclermercadoabierto.model;
 
 import com.example.recyclermercadoabierto.R;
-import com.example.recyclermercadoabierto.ResultListener;
+import com.example.recyclermercadoabierto.utils.ResultListener;
 
 import java.util.ArrayList;
 import java.util.List;

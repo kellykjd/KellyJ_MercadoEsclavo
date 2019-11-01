@@ -1,6 +1,7 @@
 package com.example.recyclermercadoabierto.view;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import android.os.Bundle;
@@ -14,6 +15,8 @@ public class MainActivity extends AppCompatActivity implements FragmentListaProd
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.mainActivity_toolbar);
+        setSupportActionBar(toolbar);
         pegarFragment(new FragmentListaProductos());
     }
 

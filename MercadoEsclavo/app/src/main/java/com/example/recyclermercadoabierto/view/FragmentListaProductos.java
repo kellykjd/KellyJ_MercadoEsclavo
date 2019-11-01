@@ -14,7 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.recyclermercadoabierto.R;
-import com.example.recyclermercadoabierto.ResultListener;
+import com.example.recyclermercadoabierto.utils.ResultListener;
 import com.example.recyclermercadoabierto.controller.ProductoController;
 import com.example.recyclermercadoabierto.model.Producto;
 

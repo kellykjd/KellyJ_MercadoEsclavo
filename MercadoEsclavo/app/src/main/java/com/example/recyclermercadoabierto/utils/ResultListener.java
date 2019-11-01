@@ -1,4 +1,4 @@
-package com.example.recyclermercadoabierto;
+package com.example.recyclermercadoabierto.utils;
 
 public interface ResultListener<T> {
 

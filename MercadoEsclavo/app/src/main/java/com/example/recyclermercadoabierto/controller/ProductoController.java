@@ -1,6 +1,6 @@
 package com.example.recyclermercadoabierto.controller;
 
-import com.example.recyclermercadoabierto.ResultListener;
+import com.example.recyclermercadoabierto.utils.ResultListener;
 import com.example.recyclermercadoabierto.model.Producto;
 import com.example.recyclermercadoabierto.model.ProductoDao;
 
