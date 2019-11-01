@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="200dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginHorizontal="10dp">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:src="@mipmap/ic_launcher"
+        android:layout_height="200dp"
+        android:id="@+id/celdaProducto_ImageView_foto"
+        android:scaleType="centerCrop"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="vertical"
+        android:layout_marginTop="140dp"
+        android:background="#BF000000">
+        <TextView
+            android:id="@+id/celdaProducto_TextView_nombre"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            tools:text="Nombre Producto"
+            android:textSize="25sp"
+            android:textColor="#FFF"/>
+
+        <TextView
+            android:id="@+id/celdaProducto_TextView_precio"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            tools:text="$900"
+            android:textSize="25sp"
+            android:textColor="#C6DA18"/>
+
+    </LinearLayout>
+
+</FrameLayout>
