@@ -10,8 +10,11 @@
         android:id="@+id/mainActivity_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
-        android:background="#2D45BD"
-        app:titleTextColor="#ffffff"/>
+        android:background="#425AC8"
+        app:titleTextColor="#ffffff"
+        app:logo="@drawable/logo"
+        android:gravity="left"
+        />
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
