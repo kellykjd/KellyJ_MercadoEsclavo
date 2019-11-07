@@ -11,7 +11,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".view.MainActivity"
-            android:label="MercadoEsclavo"
+            android:screenOrientation="portrait"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

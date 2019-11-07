@@ -25,7 +25,6 @@ public class MainActivity extends AppCompatActivity implements FragmentListaProd
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.mainActivity_container,fragment)
-                .addToBackStack(null)
                 .commit();
     }
 
