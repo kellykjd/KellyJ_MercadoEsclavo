@@ -41,12 +41,6 @@
             android:src="@drawable/ic_local_grocery_store_black_24dp" />
     </LinearLayout>
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:scaleType="fitXY"
-        android:src="@drawable/banner" />
-
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
