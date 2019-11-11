@@ -5,13 +5,14 @@
         android:id="@+id/buscar"
         android:icon="@drawable/ic_search_black_24dp"
         android:title="Buscar"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
         app:showAsAction="ifRoom"
-
-        android:orderInCategory="1"/>
-
+        />
+<!--
     <item
         android:id="@+id/verCarrito"
         android:icon="@drawable/ic_local_grocery_store_black_24dp"
         android:title="Ver carrito"
         android:orderInCategory="2" />
+        -->
 </menu>
