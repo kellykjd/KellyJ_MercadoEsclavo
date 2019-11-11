@@ -18,7 +18,7 @@
         android:layout_marginVertical="10dp">
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="150dp"
         android:scaleType="fitXY"
         android:src="@drawable/banner"/>
     </androidx.cardview.widget.CardView>
