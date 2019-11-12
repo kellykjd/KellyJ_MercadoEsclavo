@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity implements FragmentListaProd
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        toolbar = findViewById(R.id.mainActivity_toolbar);
+        toolbar = findViewById(R.id.toolbar);
 
         setSupportActionBar(toolbar);
 

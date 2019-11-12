@@ -9,14 +9,9 @@
     tools:context=".view.MainActivity"
     android:background="#FFFFFF">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/mainActivity_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?actionBarSize"
-        android:background="#425AC8"
-        android:gravity="left"
-        app:logo="@drawable/logo"
-        app:titleTextColor="#ffffff" />
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
 
     <LinearLayout
         android:layout_width="match_parent"
