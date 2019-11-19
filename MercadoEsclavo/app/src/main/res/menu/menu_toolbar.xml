@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:metrodeal="http://schemas.android.com/tools">
     <item
         android:id="@+id/buscar"
-        android:icon="@drawable/ic_search_black_24dp"
-        android:title="Opción 1"
-        app:actionViewClass="androidx.appcompat.widget.SearchView"
-        app:showAsAction="collapseActionView"
-        android:orderInCategory="1" />
+        android:title="Buscar"
+        app:showAsAction="ifRoom"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"/>
+
+
 
     <item
         android:id="@+id/verCarrito"
-        android:icon="@drawable/ic_local_grocery_store_black_24dp"
+
         android:title="Opción 2"
-        app:showAsAction="collapseActionView"
-        android:orderInCategory="2" />
+        app:showAsAction="collapseActionView"/>
 
 </menu>
