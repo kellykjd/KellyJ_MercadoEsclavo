@@ -1,6 +1,5 @@
 package com.example.recyclermercadoabierto.view;
 
-import android.icu.text.Transliterator;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.recyclermercadoabierto.R;
 import com.example.recyclermercadoabierto.model.Producto;
 
@@ -33,7 +33,6 @@ public class AdapterProductos extends RecyclerView.Adapter <AdapterProductos.Vie
 
     //5to Paso
     @NonNull
-
     //5.4 Paso
     @Override
     public ViewHolderProductos onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -49,19 +48,18 @@ public class AdapterProductos extends RecyclerView.Adapter <AdapterProductos.Vie
         holder.cargarProducto(productoMostrado);
     }
 
-    //5.1 Paso
+
     @Override
     public int getItemCount() {
         return productoList.size();
     }
 
-//6to Paso
+
     public void setProductoList(List<Producto> productoList){
         this.productoList = productoList;
         notifyDataSetChanged();
     }
 
-//2do paso
     public class ViewHolderProductos extends RecyclerView.ViewHolder{
         private TextView textViewNombre;
         private TextView textViewPrecio;
@@ -81,15 +79,15 @@ public class AdapterProductos extends RecyclerView.Adapter <AdapterProductos.Vie
         });
     }
 
-    //5.2 Paso
     public void cargarProducto(Producto producto){
-        textViewNombre.setText(producto.getNombre());
-        textViewPrecio.setText(producto.getPrecio());
-        imageViewProducto.setImageResource(producto.getFoto());
+        textViewNombre.setText(producto.getTitle());
+        textViewPrecio.setText(producto.getPrice().toString());
+        Glide.with(itemView)
+                .load(producto.getThumbnail())
+                .into(imageViewProducto);
+
     }
 }
-
-//1er paso
     public interface ListenerDelAdapter{
         public void informarProductoSeleccionado(Producto producto);
     }

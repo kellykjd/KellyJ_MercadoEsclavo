@@ -2,19 +2,20 @@ package com.example.recyclermercadoabierto.controller;
 
 import com.example.recyclermercadoabierto.utils.ResultListener;
 import com.example.recyclermercadoabierto.model.Producto;
-import com.example.recyclermercadoabierto.model.ProductoDao;
+import com.example.recyclermercadoabierto.model.PedidosDao;
 
 import java.util.List;
 
 public class ProductoController {
 
-    public void traerProductos(final ResultListener listenerDeLaVista){
-        ProductoDao productoDao = new ProductoDao();
-        productoDao.traerProductos(new ResultListener<List<Producto>>() {
+    public void buscarProductos(String unaPalabra,  final ResultListener listenerDeLaVista){
+        PedidosDao pedidosDao =new PedidosDao();
+        pedidosDao.buscarProductos(unaPalabra, new ResultListener<List<Producto>>() {
             @Override
-            public void finish(List<Producto> result) {
-                listenerDeLaVista.finish(result);
+            public void finish(List<Producto> results) {
+                listenerDeLaVista.finish(results);
             }
         });
+
     }
 }

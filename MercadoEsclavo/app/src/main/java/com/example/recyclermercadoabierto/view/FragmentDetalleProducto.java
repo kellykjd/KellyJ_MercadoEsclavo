@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.recyclermercadoabierto.R;
 import com.example.recyclermercadoabierto.model.Producto;
 
@@ -39,10 +40,12 @@ public class FragmentDetalleProducto extends Fragment {
             imageViewProducto = view.findViewById(R.id.fragmentDetalleProducto_ImageView_foto);
             Bundle bundle = getArguments();
             Producto productoSeleccionado =(Producto) bundle.getSerializable(CLAVE_PRODUCTO);
-            imageViewProducto.setImageResource(productoSeleccionado.getFoto());
-            textViewNombre.setText(productoSeleccionado.getNombre());
-            textViewDescripcion.setText(productoSeleccionado.getDescripcion());
-            textViewPrecio.setText(productoSeleccionado.getPrecio());
+            Glide.with(view)
+                    .load(productoSeleccionado.getThumbnail())
+                    .into(imageViewProducto);
+            textViewNombre.setText(productoSeleccionado.getTitle());
+            textViewDescripcion.setText("");
+            textViewPrecio.setText(productoSeleccionado.getPrice().toString());
             return view;
     }
 
