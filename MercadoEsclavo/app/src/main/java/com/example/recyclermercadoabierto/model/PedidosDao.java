@@ -3,7 +3,9 @@ package com.example.recyclermercadoabierto.model;
 import android.util.Log;
 
 import com.example.recyclermercadoabierto.utils.ResultListener;
+import com.google.android.material.snackbar.Snackbar;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -17,8 +19,8 @@ public class PedidosDao extends PedidosRetrofitDao {
         super(BASE_URL);
     }
 
-    public void buscarProductos(String unaPalabra, final ResultListener<List<Producto>> listenerDelController){
-        Call<ContainerProductos> call =apiService.buscarPorPalabra(unaPalabra);
+    public void buscarProductos(String unaPalabra, Integer limite, final ResultListener<List<Producto>> listenerDelController){
+        Call<ContainerProductos> call =apiService.buscarPorPalabra(unaPalabra,limite);
 
         call.enqueue(new Callback<ContainerProductos>() {
             @Override
@@ -29,11 +31,14 @@ public class PedidosDao extends PedidosRetrofitDao {
 
             @Override
             public void onFailure(Call<ContainerProductos> call, Throwable t) {
+
                 Log.d("Pedido", "Fallas con el pedido, revisar");
             }
         });
 
     }
+
+
 
     public void traerDireccion(ResultListener<List<Direccion>> listenerDelController){
 
@@ -44,4 +49,5 @@ public class PedidosDao extends PedidosRetrofitDao {
 
 
     }
+
 }

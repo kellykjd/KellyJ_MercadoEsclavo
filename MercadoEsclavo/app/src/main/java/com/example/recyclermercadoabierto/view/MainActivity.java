@@ -7,15 +7,21 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
+import android.text.Layout;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.recyclermercadoabierto.R;
@@ -25,12 +31,15 @@ import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import java.util.ArrayList;
 
+import static android.view.View.GONE;
+
 public class MainActivity extends AppCompatActivity implements FragmentListaProductos.ListenerDeFragment,NavigationView.OnNavigationItemSelectedListener {
 
     private Toolbar toolbar;
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private MaterialSearchView searchView;
+    private LinearLayout textViewCinta;
 
     @SuppressLint("WrongConstant")
     @Override
@@ -40,8 +49,10 @@ public class MainActivity extends AppCompatActivity implements FragmentListaProd
         setContentView(R.layout.activity_main);
         encontrarVistas();
         setSupportActionBar(toolbar);
+        searchView.setVoiceSearch(true);
+        searchView.setCursorDrawable(R.drawable.color_cursor_white);
         cargarNavigationView();
-        pegarFragment(new FragmentListaProductos());
+        pegarFragment(new FragmentListaProductos(),false);
         searchView.setVoiceSearch(true);
         searchView.setCursorDrawable(R.drawable.custom_cursor);
 /*       // Get ActionBar.
@@ -53,10 +64,15 @@ public class MainActivity extends AppCompatActivity implements FragmentListaProd
         actionBar.setIcon(R.drawable.logo);
         //actionBar.setLogo(R.drawable.logo);*/
         searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
+
+
+
             @Override
             public boolean onQueryTextSubmit(String query) {
-                //Do some magic
-                return false;
+                buscarProducto(query);
+                searchView.clearFocus();
+
+                return true;
             }
 
             @Override
@@ -82,6 +98,7 @@ public class MainActivity extends AppCompatActivity implements FragmentListaProd
     }
 
 
+/*
     @Override
     public void onBackPressed() {
         if (searchView.isSearchOpen()) {
@@ -90,13 +107,25 @@ public class MainActivity extends AppCompatActivity implements FragmentListaProd
             super.onBackPressed();
         }
     }
+*/
+
+
+    @Override
+    public void onBackPressed() {
+        searchView.closeSearch();
+        textViewCinta.setVisibility(View.VISIBLE);
+        super.onBackPressed();
+
+    }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_toolbar,menu);
 
-        MenuItem item = menu.findItem(R.id.action_search);
-        searchView.setMenuItem(item);
+       MenuItem item = menu.findItem(R.id.action_search);
+       searchView.setMenuItem(item);
         return true;
     }
 
@@ -126,7 +155,9 @@ public class MainActivity extends AppCompatActivity implements FragmentListaProd
                 Toast.makeText(this, "Por programar", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.menuPrincipal_aboutUs:
-                Toast.makeText(this, "Por programar", Toast.LENGTH_SHORT).show();
+                textViewCinta.setVisibility(View.GONE);
+                FragmentAboutUs fragmentAboutUs = new FragmentAboutUs();
+                pegarFragment(fragmentAboutUs,true);
                 break;
             case R.id.menuPrincipal_logout:
                 Toast.makeText(this, "Por programar", Toast.LENGTH_SHORT).show();
@@ -155,13 +186,18 @@ public class MainActivity extends AppCompatActivity implements FragmentListaProd
         drawerLayout = findViewById(R.id.mainActivity_drawerLayout);
         navigationView=findViewById(R.id.navigationView);
         searchView = findViewById(R.id.search_view);
+        textViewCinta = findViewById(R.id.mainActivity_cinta);
     }
 
-    private void pegarFragment(Fragment fragment){
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.mainActivity_container,fragment)
-                .commit();
+    private void pegarFragment(Fragment fragment, Boolean addToBackStack){
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        if (addToBackStack){
+            fragmentTransaction.addToBackStack(null);
+        }
+        fragmentTransaction.replace(R.id.mainActivity_container,fragment,null)
+                .commitAllowingStateLoss();
     }
 
     @Override
@@ -171,22 +207,15 @@ public class MainActivity extends AppCompatActivity implements FragmentListaProd
         Bundle bundle = new Bundle();
         bundle.putSerializable(FragmentDetalleProducto.CLAVE_PRODUCTO,producto);
         fragmentDetalleProducto.setArguments(bundle);
-        pegarFragment(fragmentDetalleProducto);
+        pegarFragment(fragmentDetalleProducto,true);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if (requestCode == MaterialSearchView.REQUEST_VOICE && resultCode == RESULT_OK) {
-            ArrayList<String> matches = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-            if (matches != null && matches.size() > 0) {
-                String searchWrd = matches.get(0);
-                if (!TextUtils.isEmpty(searchWrd)) {
-                    searchView.setQuery(searchWrd, false);
-                }
-            }
-
-            return;
-        }
-        super.onActivityResult(requestCode, resultCode, data);
+    private void buscarProducto(String unaPalabra){
+        FragmentListaProductos fragmentListaProductos = new FragmentListaProductos();
+        Bundle bundle = new Bundle();
+        bundle.putString(FragmentListaProductos.CLAVE_PALABRA,unaPalabra);
+        fragmentListaProductos.setArguments(bundle);
+        pegarFragment(fragmentListaProductos,true);
     }
+
 }

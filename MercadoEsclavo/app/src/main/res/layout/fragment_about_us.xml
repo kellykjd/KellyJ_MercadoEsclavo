@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".view.FragmentAboutUs">
+
+    <ImageView
+        android:layout_width="200dp"
+        android:layout_height="70dp"
+        android:src="@drawable/logo"
+        android:layout_gravity="center"
+        android:paddingTop="5dp"
+        android:paddingHorizontal="20dp"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Sobre Nosotros"
+        android:gravity="center"
+        android:textSize="22sp"
+        android:textColor="@color/colorToolbar"
+        android:textStyle="bold"
+        android:paddingVertical="10dp"
+        android:paddingHorizontal="20dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Somos un equipo poco disciplinario que busca mostrarte las mejores opciones para que gastes tu dinero de la mejor manera. Un mundo de cosas innecesarias que estamos seguros te van a gustar, y las vas a comprar."
+        android:textSize="15sp"
+        android:justificationMode="inter_word"
+        android:paddingHorizontal="20dp"/>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Misión"
+        android:gravity="center"
+        android:textSize="22sp"
+        android:textColor="@color/colorToolbar"
+        android:textStyle="bold"
+        android:paddingVertical="10dp"
+        android:paddingHorizontal="20dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Que uses la aplicación para determinar las mejoras que podamos hacerle, para que sigas comprando felizmente."
+        android:textSize="15sp"
+        android:justificationMode="inter_word"
+        android:paddingHorizontal="20dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Visión"
+        android:gravity="center"
+        android:textSize="22sp"
+        android:textColor="@color/colorToolbar"
+        android:textStyle="bold"
+        android:paddingVertical="10dp"
+        android:paddingHorizontal="20dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Nos vemos el próximo verano, en Pinamar con un par de caipiriñas y un bañador caribeño."
+        android:textSize="15sp"
+        android:justificationMode="inter_word"
+        android:paddingHorizontal="20dp"/>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:src="@drawable/aboutus"
+        android:scaleType="fitXY"
+        android:layout_marginTop="18dp"/>
+
+</LinearLayout>

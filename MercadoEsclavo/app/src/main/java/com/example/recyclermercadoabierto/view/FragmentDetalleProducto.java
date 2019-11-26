@@ -24,6 +24,7 @@ public class FragmentDetalleProducto extends Fragment {
     private TextView textViewNombre;
     private TextView textViewDescripcion;
     private TextView textViewPrecio;
+    private TextView textViewHayStock;
     private ImageView imageViewProducto;
 
 
@@ -38,15 +39,27 @@ public class FragmentDetalleProducto extends Fragment {
             textViewDescripcion = view.findViewById(R.id.fragmentDetalleProducto_TextView_descripición);
             textViewPrecio = view.findViewById(R.id.fragmentDetalleProducto_TextView_precio);
             imageViewProducto = view.findViewById(R.id.fragmentDetalleProducto_ImageView_foto);
+            textViewHayStock = view.findViewById(R.id.fragmentDetalleProducto_TextView_hayStock);
             Bundle bundle = getArguments();
             Producto productoSeleccionado =(Producto) bundle.getSerializable(CLAVE_PRODUCTO);
             Glide.with(view)
-                    .load(productoSeleccionado.getThumbnail())
+                    .load(productoSeleccionado.getImage_medium())
                     .into(imageViewProducto);
             textViewNombre.setText(productoSeleccionado.getTitle());
+            textViewPrecio.setText(productoSeleccionado.getPriceFormatted());
+            hayStock(productoSeleccionado);
             textViewDescripcion.setText("");
-            textViewPrecio.setText(productoSeleccionado.getPrice().toString());
             return view;
+    }
+
+    private void hayStock(Producto producto){
+        if(producto.getAvailable_quantity()>0){
+            textViewHayStock.setText("En stock");
+            textViewHayStock.setTextColor(getResources().getColor(R.color.colorCinta));
+        }else{
+            textViewHayStock.setText("Agotado");
+
+        }
     }
 
 }

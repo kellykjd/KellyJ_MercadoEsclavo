@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide;
 import com.example.recyclermercadoabierto.R;
 import com.example.recyclermercadoabierto.model.Producto;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -81,7 +82,8 @@ public class AdapterProductos extends RecyclerView.Adapter <AdapterProductos.Vie
 
     public void cargarProducto(Producto producto){
         textViewNombre.setText(producto.getTitle());
-        textViewPrecio.setText(producto.getPrice().toString());
+        textViewPrecio.setText(producto.getPriceFormatted());
+
         Glide.with(itemView)
                 .load(producto.getThumbnail())
                 .into(imageViewProducto);

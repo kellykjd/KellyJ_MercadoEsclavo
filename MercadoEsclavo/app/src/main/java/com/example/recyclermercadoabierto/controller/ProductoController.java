@@ -8,9 +8,9 @@ import java.util.List;
 
 public class ProductoController {
 
-    public void buscarProductos(String unaPalabra,  final ResultListener listenerDeLaVista){
+    public void buscarProductos(String unaPalabra, Integer limite, final ResultListener listenerDeLaVista){
         PedidosDao pedidosDao =new PedidosDao();
-        pedidosDao.buscarProductos(unaPalabra, new ResultListener<List<Producto>>() {
+        pedidosDao.buscarProductos(unaPalabra, limite, new ResultListener<List<Producto>>() {
             @Override
             public void finish(List<Producto> results) {
                 listenerDeLaVista.finish(results);
@@ -18,4 +18,8 @@ public class ProductoController {
         });
 
     }
+
+
+
+
 }
