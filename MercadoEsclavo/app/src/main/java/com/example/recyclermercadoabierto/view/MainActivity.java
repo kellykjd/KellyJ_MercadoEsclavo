@@ -1,7 +1,6 @@
 package com.example.recyclermercadoabierto.view;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -11,27 +10,17 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.annotation.SuppressLint;
-import android.app.ActionBar;
-import android.content.Intent;
 import android.os.Bundle;
-import android.speech.RecognizerIntent;
-import android.text.Layout;
-import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.recyclermercadoabierto.R;
-import com.example.recyclermercadoabierto.model.Producto;
+import com.example.recyclermercadoabierto.model.Resultado;
 import com.google.android.material.navigation.NavigationView;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
-
-import java.util.ArrayList;
-
-import static android.view.View.GONE;
 
 public class MainActivity extends AppCompatActivity implements FragmentListaProductos.ListenerDeFragment,NavigationView.OnNavigationItemSelectedListener {
 
@@ -201,11 +190,11 @@ public class MainActivity extends AppCompatActivity implements FragmentListaProd
     }
 
     @Override
-    public void recibirProducto(Producto producto) {
+    public void recibirProducto(Resultado resultado) {
 
         FragmentDetalleProducto fragmentDetalleProducto =new FragmentDetalleProducto();
         Bundle bundle = new Bundle();
-        bundle.putSerializable(FragmentDetalleProducto.CLAVE_PRODUCTO,producto);
+        bundle.putSerializable(FragmentDetalleProducto.CLAVE_PRODUCTO, resultado);
         fragmentDetalleProducto.setArguments(bundle);
         pegarFragment(fragmentDetalleProducto,true);
     }

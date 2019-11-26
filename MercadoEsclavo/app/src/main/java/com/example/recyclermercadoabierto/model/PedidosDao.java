@@ -3,9 +3,7 @@ package com.example.recyclermercadoabierto.model;
 import android.util.Log;
 
 import com.example.recyclermercadoabierto.utils.ResultListener;
-import com.google.android.material.snackbar.Snackbar;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -19,18 +17,18 @@ public class PedidosDao extends PedidosRetrofitDao {
         super(BASE_URL);
     }
 
-    public void buscarProductos(String unaPalabra, Integer limite, final ResultListener<List<Producto>> listenerDelController){
-        Call<ContainerProductos> call =apiService.buscarPorPalabra(unaPalabra,limite);
+    public void buscarResultados(String unaPalabra, Integer limite, final ResultListener<List<Resultado>> listenerDelController){
+        Call<ContainerResultado> call =apiService.buscarPorPalabra(unaPalabra,limite);
 
-        call.enqueue(new Callback<ContainerProductos>() {
+        call.enqueue(new Callback<ContainerResultado>() {
             @Override
-            public void onResponse(Call<ContainerProductos> call, Response<ContainerProductos> response) {
-                ContainerProductos containerProductos =response.body();
-                listenerDelController.finish(containerProductos.getResults());
+            public void onResponse(Call<ContainerResultado> call, Response<ContainerResultado> response) {
+                ContainerResultado containerResultado =response.body();
+                listenerDelController.finish(containerResultado.getResults());
             }
 
             @Override
-            public void onFailure(Call<ContainerProductos> call, Throwable t) {
+            public void onFailure(Call<ContainerResultado> call, Throwable t) {
 
                 Log.d("Pedido", "Fallas con el pedido, revisar");
             }
@@ -39,6 +37,24 @@ public class PedidosDao extends PedidosRetrofitDao {
     }
 
 
+    public void buscarAtributos(String unId, final ResultListener<List<Atributo>> listenerDelController){
+        Call<Resultado> call =apiService.traerAtributos(unId);
+
+        call.enqueue(new Callback<Resultado>() {
+            @Override
+            public void onResponse(Call<Resultado> call, Response<Resultado> response) {
+                Resultado unResultado =response.body();
+                listenerDelController.finish(unResultado.getAttributes());
+            }
+
+            @Override
+            public void onFailure(Call<Resultado> call, Throwable t) {
+
+                Log.d("Pedido", "Fallas con el pedido, revisar");
+            }
+        });
+
+    }
 
     public void traerDireccion(ResultListener<List<Direccion>> listenerDelController){
 

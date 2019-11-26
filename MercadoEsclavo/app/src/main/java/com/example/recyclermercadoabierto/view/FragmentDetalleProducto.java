@@ -4,6 +4,8 @@ package com.example.recyclermercadoabierto.view;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,16 +15,23 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.recyclermercadoabierto.R;
-import com.example.recyclermercadoabierto.model.Producto;
+import com.example.recyclermercadoabierto.controller.ProductoController;
+import com.example.recyclermercadoabierto.model.Atributo;
+import com.example.recyclermercadoabierto.model.Resultado;
+import com.example.recyclermercadoabierto.utils.ResultListener;
+
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FragmentDetalleProducto extends Fragment {
+public class FragmentDetalleProducto extends Fragment implements AdapterAtributos.ListenerDelAdapter  {
 
     public static final String CLAVE_PRODUCTO = "claveProducto";
+    private RecyclerView recyclerView;
+    private ListenerDeFragment listenerDeFragment;
     private TextView textViewNombre;
-    private TextView textViewDescripcion;
+    private TextView textViewVendidos;
     private TextView textViewPrecio;
     private TextView textViewHayStock;
     private ImageView imageViewProducto;
@@ -34,32 +43,64 @@ public class FragmentDetalleProducto extends Fragment {
         // Inflate the layout for this fragment
 
             View view = inflater.inflate(R.layout.fragment_detalle_producto, container, false);
-
-            textViewNombre = view.findViewById(R.id.fragmentDetalleProducto_TextView_nombre);
-            textViewDescripcion = view.findViewById(R.id.fragmentDetalleProducto_TextView_descripición);
-            textViewPrecio = view.findViewById(R.id.fragmentDetalleProducto_TextView_precio);
-            imageViewProducto = view.findViewById(R.id.fragmentDetalleProducto_ImageView_foto);
-            textViewHayStock = view.findViewById(R.id.fragmentDetalleProducto_TextView_hayStock);
+            encontrarVistas(view);
             Bundle bundle = getArguments();
-            Producto productoSeleccionado =(Producto) bundle.getSerializable(CLAVE_PRODUCTO);
-            Glide.with(view)
-                    .load(productoSeleccionado.getImage_medium())
-                    .into(imageViewProducto);
-            textViewNombre.setText(productoSeleccionado.getTitle());
-            textViewPrecio.setText(productoSeleccionado.getPriceFormatted());
-            hayStock(productoSeleccionado);
-            textViewDescripcion.setText("");
-            return view;
+            Resultado resultadoSeleccionado =(Resultado)bundle.getSerializable(CLAVE_PRODUCTO);
+            cargarProducto(view, resultadoSeleccionado);
+             return view;
     }
 
-    private void hayStock(Producto producto){
-        if(producto.getAvailable_quantity()>0){
+    private void hayStock(Resultado resultado){
+        if(resultado.getAvailable_quantity()>0){
             textViewHayStock.setText("En stock");
             textViewHayStock.setTextColor(getResources().getColor(R.color.colorCinta));
         }else{
             textViewHayStock.setText("Agotado");
-
         }
     }
 
+    private void mostrarAtributos(String unId){
+        final AdapterAtributos adapterAtributos = new AdapterAtributos(this);
+        final ProductoController productoController = new ProductoController();
+
+
+        productoController.buscarAtributos(unId, new ResultListener<List<Atributo>>() {
+            @Override
+            public void finish(List<Atributo> results) {
+                adapterAtributos.setAtributoList(results);
+            }
+        });
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
+        recyclerView.setAdapter(adapterAtributos);
+    }
+
+    private void encontrarVistas(View view){
+        recyclerView =view.findViewById(R.id.fragmentDetalleProducto_recyclerView);
+        textViewNombre = view.findViewById(R.id.fragmentDetalleProducto_TextView_nombre);
+        textViewVendidos = view.findViewById(R.id.fragmentDetalleProducto_TextView_vendidos);
+        textViewPrecio = view.findViewById(R.id.fragmentDetalleProducto_TextView_precio);
+        imageViewProducto = view.findViewById(R.id.fragmentDetalleProducto_ImageView_foto);
+        textViewHayStock = view.findViewById(R.id.fragmentDetalleProducto_TextView_hayStock);
+    }
+
+    private void cargarProducto(View view, Resultado unResultado){
+        Glide.with(view)
+                .load(unResultado.getImage_medium())
+                .into(imageViewProducto);
+        textViewNombre.setText(unResultado.getTitle());
+        textViewPrecio.setText(unResultado.getPriceFormatted());
+        hayStock(unResultado);
+        textViewVendidos.setText(unResultado.getSold_quantity()+" vendidos");
+        mostrarAtributos(unResultado.getId());
+    }
+
+    @Override
+    public void informarAtributo(Atributo atributo) {
+        listenerDeFragment.recibirAtributo(atributo);
+    }
+
+    public interface ListenerDeFragment {
+        public void recibirAtributo(Atributo atributo);
+    }
 }

@@ -37,7 +37,7 @@
             android:gravity="center"
             android:textSize="20sp"
             android:textStyle="bold"
-            tools:text="Nombre producto" />
+            tools:text="Nombre resultado" />
 
         <TextView
             android:id="@+id/fragmentDetalleProducto_TextView_precio"
@@ -48,7 +48,7 @@
             android:textColor="#425AC8"
             android:textSize="18sp"
             android:textStyle="bold"
-            tools:text="Precio producto" />
+            tools:text="Precio resultado" />
     </LinearLayout>
 
     <LinearLayout
@@ -58,22 +58,43 @@
         android:orientation="vertical"
         android:paddingHorizontal="10dp">
 
+        <TextView
+            android:id="@+id/fragmentDetalleProducto_TextView_vendidos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:textSize="15sp"
+            tools:text="Vendidos" />
 
         <TextView
             android:id="@+id/fragmentDetalleProducto_TextView_hayStock"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="left"
-            android:textSize="20sp"
+            android:textSize="23sp"
             android:textStyle="bold"
-            tools:text="En Stock" />
+            tools:text="En Stock"
+            android:layout_marginBottom="5dp"/>
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/fragmentDetalleProducto_recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"/>
+<!-- Por Terminar
         <TextView
-            android:id="@+id/fragmentDetalleProducto_TextView_descripición"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="left"
-            android:textSize="20sp"
-            tools:text="Descripción producto" />
+            android:text="Descripcion"
+            android:textSize="18sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/fragmentDetalleProducto_TextView_descripcion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"/>
+            -->
+
     </LinearLayout>
 </LinearLayout>

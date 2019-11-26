@@ -6,27 +6,20 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.example.recyclermercadoabierto.R;
 import com.example.recyclermercadoabierto.controller.ProductoController;
-import com.example.recyclermercadoabierto.model.Producto;
+import com.example.recyclermercadoabierto.model.Resultado;
 import com.example.recyclermercadoabierto.utils.ResultListener;
-import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import java.util.List;
-
-import static android.widget.LinearLayout.VERTICAL;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -67,10 +60,10 @@ public class FragmentListaProductos extends Fragment implements AdapterProductos
         final AdapterProductos adapterProductos = new AdapterProductos(this);
         final ProductoController productoController = new ProductoController();
 
-        productoController.buscarProductos(unaPalabra, unLimite,new ResultListener<List<Producto>>() {
+        productoController.buscarProductos(unaPalabra, unLimite,new ResultListener<List<Resultado>>() {
             @Override
-            public void finish(List<Producto> results) {
-                adapterProductos.setProductoList(results);
+            public void finish(List<Resultado> results) {
+                adapterProductos.setResultadoList(results);
             }
         });
 
@@ -85,11 +78,11 @@ public class FragmentListaProductos extends Fragment implements AdapterProductos
     }
 
     @Override
-    public void informarProductoSeleccionado(Producto producto) {
-        listenerDeFragment.recibirProducto(producto);
+    public void informarProductoSeleccionado(Resultado resultado) {
+        listenerDeFragment.recibirProducto(resultado);
     }
 
     public interface ListenerDeFragment {
-        public void recibirProducto(Producto producto);
+        public void recibirProducto(Resultado resultado);
     }
 }

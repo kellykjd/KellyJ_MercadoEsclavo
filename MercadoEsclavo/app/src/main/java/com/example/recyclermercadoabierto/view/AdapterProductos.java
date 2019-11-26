@@ -11,24 +11,23 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.recyclermercadoabierto.R;
-import com.example.recyclermercadoabierto.model.Producto;
+import com.example.recyclermercadoabierto.model.Resultado;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 public class AdapterProductos extends RecyclerView.Adapter <AdapterProductos.ViewHolderProductos>{
 //3er Paso
-    private List<Producto> productoList;
+    private List<Resultado> resultadoList;
     private ListenerDelAdapter listenerDelAdapter;
 
 //4to Paso (2 constructores)
-    public AdapterProductos(List<Producto> productoList) {
-        this.productoList = productoList;
+    public AdapterProductos(List<Resultado> resultadoList) {
+        this.resultadoList = resultadoList;
     }
 
     public AdapterProductos(ListenerDelAdapter listenerDelAdapter) {
-        productoList = new ArrayList<>();
+        resultadoList = new ArrayList<>();
         this.listenerDelAdapter = listenerDelAdapter;
     }
 
@@ -45,19 +44,19 @@ public class AdapterProductos extends RecyclerView.Adapter <AdapterProductos.Vie
     //5.3 Paso
     @Override
     public void onBindViewHolder(@NonNull ViewHolderProductos holder, int position) {
-        Producto productoMostrado = productoList.get(position);
-        holder.cargarProducto(productoMostrado);
+        Resultado resultadoMostrado = resultadoList.get(position);
+        holder.cargarProducto(resultadoMostrado);
     }
 
 
     @Override
     public int getItemCount() {
-        return productoList.size();
+        return resultadoList.size();
     }
 
 
-    public void setProductoList(List<Producto> productoList){
-        this.productoList = productoList;
+    public void setResultadoList(List<Resultado> resultadoList){
+        this.resultadoList = resultadoList;
         notifyDataSetChanged();
     }
 
@@ -74,23 +73,23 @@ public class AdapterProductos extends RecyclerView.Adapter <AdapterProductos.Vie
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Producto productoSeleccionado = productoList.get(getAdapterPosition());
-                listenerDelAdapter.informarProductoSeleccionado(productoSeleccionado);
+                Resultado resultadoSeleccionado = resultadoList.get(getAdapterPosition());
+                listenerDelAdapter.informarProductoSeleccionado(resultadoSeleccionado);
             }
         });
     }
 
-    public void cargarProducto(Producto producto){
-        textViewNombre.setText(producto.getTitle());
-        textViewPrecio.setText(producto.getPriceFormatted());
+    public void cargarProducto(Resultado resultado){
+        textViewNombre.setText(resultado.getTitle());
+        textViewPrecio.setText(resultado.getPriceFormatted());
 
         Glide.with(itemView)
-                .load(producto.getThumbnail())
+                .load(resultado.getThumbnail())
                 .into(imageViewProducto);
 
     }
 }
     public interface ListenerDelAdapter{
-        public void informarProductoSeleccionado(Producto producto);
+        public void informarProductoSeleccionado(Resultado resultado);
     }
 }
