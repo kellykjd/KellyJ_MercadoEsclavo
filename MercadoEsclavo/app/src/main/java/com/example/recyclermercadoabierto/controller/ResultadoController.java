@@ -7,7 +7,7 @@ import com.example.recyclermercadoabierto.model.PedidosDao;
 
 import java.util.List;
 
-public class ProductoController {
+public class ResultadoController {
 
     public void buscarProductos(String unaPalabra, Integer limite, final ResultListener listenerDeLaVista){
         PedidosDao pedidosDao =new PedidosDao();

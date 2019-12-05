@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "393391779199",
+    "firebase_url": "https://mercadoesclavokelly.firebaseio.com",
+    "project_id": "mercadoesclavokelly",
+    "storage_bucket": "mercadoesclavokelly.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:393391779199:android:07848eca4992c777d7fe4a",
+        "android_client_info": {
+          "package_name": "com.example.recyclermercadoabierto"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "393391779199-fn8kp1rvefog0kt4q38b1qtok1vueaaf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBNJd8M2F0RmcCK4z_jtM4wq9P66NfmF0I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "393391779199-fn8kp1rvefog0kt4q38b1qtok1vueaaf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

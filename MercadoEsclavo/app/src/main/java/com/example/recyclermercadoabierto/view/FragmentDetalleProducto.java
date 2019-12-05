@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.recyclermercadoabierto.R;
-import com.example.recyclermercadoabierto.controller.ProductoController;
+import com.example.recyclermercadoabierto.controller.ResultadoController;
 import com.example.recyclermercadoabierto.model.Atributo;
 import com.example.recyclermercadoabierto.model.Resultado;
 import com.example.recyclermercadoabierto.utils.ResultListener;
@@ -35,7 +35,7 @@ public class FragmentDetalleProducto extends Fragment implements AdapterAtributo
     private TextView textViewPrecio;
     private TextView textViewHayStock;
     private ImageView imageViewProducto;
-
+    //private TextView textViewDescripcion;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -61,10 +61,10 @@ public class FragmentDetalleProducto extends Fragment implements AdapterAtributo
 
     private void mostrarAtributos(String unId){
         final AdapterAtributos adapterAtributos = new AdapterAtributos(this);
-        final ProductoController productoController = new ProductoController();
+        final ResultadoController resultadoController = new ResultadoController();
 
 
-        productoController.buscarAtributos(unId, new ResultListener<List<Atributo>>() {
+        resultadoController.buscarAtributos(unId, new ResultListener<List<Atributo>>() {
             @Override
             public void finish(List<Atributo> results) {
                 adapterAtributos.setAtributoList(results);
@@ -75,6 +75,7 @@ public class FragmentDetalleProducto extends Fragment implements AdapterAtributo
         recyclerView.setAdapter(adapterAtributos);
     }
 
+
     private void encontrarVistas(View view){
         recyclerView =view.findViewById(R.id.fragmentDetalleProducto_recyclerView);
         textViewNombre = view.findViewById(R.id.fragmentDetalleProducto_TextView_nombre);
@@ -82,6 +83,7 @@ public class FragmentDetalleProducto extends Fragment implements AdapterAtributo
         textViewPrecio = view.findViewById(R.id.fragmentDetalleProducto_TextView_precio);
         imageViewProducto = view.findViewById(R.id.fragmentDetalleProducto_ImageView_foto);
         textViewHayStock = view.findViewById(R.id.fragmentDetalleProducto_TextView_hayStock);
+        //textViewDescripcion = view.findViewById(R.id.fragmentDetalleProducto_TextView_descripcion);
     }
 
     private void cargarProducto(View view, Resultado unResultado){

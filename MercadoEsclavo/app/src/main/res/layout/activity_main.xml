@@ -28,11 +28,12 @@
             android:id="@+id/mainActivity_cinta">
 
             <TextView
+                android:id="@+id/mainActivity_cinta_textViewUser"
                 android:layout_width="0dp"
                 android:layout_height="30dp"
                 android:layout_weight="2"
                 android:gravity="center_vertical"
-                android:text="Hola Kelly, mirá lo que llegó"
+                tools:text="Hola usuario, mirá lo que llegó"
                 android:textColor="#FFFFFF"
                 android:textSize="15sp" />
 

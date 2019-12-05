@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.example.recyclermercadoabierto.R;
-import com.example.recyclermercadoabierto.controller.ProductoController;
+import com.example.recyclermercadoabierto.controller.ResultadoController;
 import com.example.recyclermercadoabierto.model.Resultado;
 import com.example.recyclermercadoabierto.utils.ResultListener;
 
@@ -58,9 +58,9 @@ public class FragmentListaProductos extends Fragment implements AdapterProductos
 
     private void buscarProducto(String unaPalabra, Integer unLimite){
         final AdapterProductos adapterProductos = new AdapterProductos(this);
-        final ProductoController productoController = new ProductoController();
+        final ResultadoController resultadoController = new ResultadoController();
 
-        productoController.buscarProductos(unaPalabra, unLimite,new ResultListener<List<Resultado>>() {
+        resultadoController.buscarProductos(unaPalabra, unLimite,new ResultListener<List<Resultado>>() {
             @Override
             public void finish(List<Resultado> results) {
                 adapterProductos.setResultadoList(results);

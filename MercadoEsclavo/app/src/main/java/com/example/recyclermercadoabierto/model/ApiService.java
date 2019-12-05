@@ -1,5 +1,7 @@
 package com.example.recyclermercadoabierto.model;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
@@ -13,7 +15,7 @@ public interface ApiService {
 
 /*    //buscar descripcion de producto
     @GET("/items/{id}/descriptions")
-    Call<Informacion> traerDescripcionItem(@Path("id") String idItem);*/
+    Call<Descripcion> traerDescripcionItem(@Path("id") String idItem);*/
 
     @GET("/items/{id}")
     Call<Resultado> traerAtributos(@Path("id") String idItem);

@@ -10,25 +10,28 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.recyclermercadoabierto.R;
 import com.example.recyclermercadoabierto.model.Resultado;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 public class MainActivity extends AppCompatActivity implements FragmentListaProductos.ListenerDeFragment,NavigationView.OnNavigationItemSelectedListener {
-
     private Toolbar toolbar;
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private MaterialSearchView searchView;
     private LinearLayout textViewCinta;
+    private TextView textViewUser;
 
     @SuppressLint("WrongConstant")
     @Override
@@ -42,6 +45,11 @@ public class MainActivity extends AppCompatActivity implements FragmentListaProd
         searchView.setCursorDrawable(R.drawable.color_cursor_white);
         cargarNavigationView();
         pegarFragment(new FragmentListaProductos(),false);
+        try{String usuario = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+            textViewUser.setText("Hola "+usuario+", mirá lo que llegó");}catch(Exception e){
+            e.printStackTrace();
+        }
+
         searchView.setVoiceSearch(true);
         searchView.setCursorDrawable(R.drawable.custom_cursor);
 /*       // Get ActionBar.
@@ -138,7 +146,7 @@ public class MainActivity extends AppCompatActivity implements FragmentListaProd
         Integer id = menuItem.getItemId();
         switch (id) {
             case R.id.menuPrincipal_perfil:
-                Toast.makeText(this, "Por programar", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(this,LoginActivity.class));
                 break;
             case R.id.menuPrincipal_favoritos:
                 Toast.makeText(this, "Por programar", Toast.LENGTH_SHORT).show();
@@ -149,6 +157,9 @@ public class MainActivity extends AppCompatActivity implements FragmentListaProd
                 pegarFragment(fragmentAboutUs,true);
                 break;
             case R.id.menuPrincipal_logout:
+
+
+
                 Toast.makeText(this, "Por programar", Toast.LENGTH_SHORT).show();
                 break;
         }
@@ -176,6 +187,7 @@ public class MainActivity extends AppCompatActivity implements FragmentListaProd
         navigationView=findViewById(R.id.navigationView);
         searchView = findViewById(R.id.search_view);
         textViewCinta = findViewById(R.id.mainActivity_cinta);
+        textViewUser=findViewById(R.id.mainActivity_cinta_textViewUser);
     }
 
     private void pegarFragment(Fragment fragment, Boolean addToBackStack){
