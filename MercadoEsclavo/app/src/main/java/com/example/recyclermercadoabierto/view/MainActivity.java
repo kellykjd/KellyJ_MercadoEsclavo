@@ -21,10 +21,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.recyclermercadoabierto.R;
 import com.example.recyclermercadoabierto.model.Resultado;
 import com.example.recyclermercadoabierto.model.Usuario;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -52,23 +54,14 @@ public class MainActivity extends AppCompatActivity implements FragmentListaProd
         setContentView(R.layout.activity_main);
         encontrarVistas();
         firestore= FirebaseFirestore.getInstance();
+        actualizarInfoUsuario();
         setSupportActionBar(toolbar);
-        searchView.setVoiceSearch(true);
         searchView.setCursorDrawable(R.drawable.color_cursor_white);
         cargarNavigationView();
         pegarFragment(new FragmentListaProductos(),false);
-        actualizarInfoUsuario();
 
         searchView.setVoiceSearch(true);
         searchView.setCursorDrawable(R.drawable.custom_cursor);
-/*       // Get ActionBar.
-        androidx.appcompat.app.ActionBar actionBar = getSupportActionBar();
-
-        // Set below attributes to add logo in ActionBar.
-        actionBar.setDisplayShowHomeEnabled(true);
-        actionBar.setDisplayUseLogoEnabled(true);
-        actionBar.setIcon(R.drawable.logo);
-        //actionBar.setLogo(R.drawable.logo);*/
         searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
 
 
@@ -104,22 +97,11 @@ public class MainActivity extends AppCompatActivity implements FragmentListaProd
     }
 
 
-/*
-    @Override
-    public void onBackPressed() {
-        if (searchView.isSearchOpen()) {
-            searchView.closeSearch();
-        } else {
-            super.onBackPressed();
-        }
-    }
-*/
-
-
     @Override
     public void onBackPressed() {
         searchView.closeSearch();
         textViewCinta.setVisibility(View.VISIBLE);
+        toolbar.getMenu().getItem(0).setVisible(true);
         super.onBackPressed();
 
     }
@@ -155,9 +137,13 @@ public class MainActivity extends AppCompatActivity implements FragmentListaProd
         switch (id) {
             case R.id.menuPrincipal_perfil:
 
-                if(FirebaseAuth.getInstance().getCurrentUser()!=null){}else{
-                    pegarFragment(new FragmentPerfil(),false);
-                startActivity(new Intent(this,LoginActivity.class));}
+                if(FirebaseAuth.getInstance().getCurrentUser()!=null){
+                    textViewCinta.setVisibility(View.GONE);
+                    toolbar.getMenu().getItem(0).setVisible(false);
+                    pegarFragment(new FragmentPerfil(),true);
+                }else{
+                startActivity(new Intent(this,LoginActivity.class));
+                }
                 break;
             case R.id.menuPrincipal_favoritos:
                 Toast.makeText(this, "Por programar", Toast.LENGTH_SHORT).show();
@@ -166,10 +152,12 @@ public class MainActivity extends AppCompatActivity implements FragmentListaProd
                 textViewCinta.setVisibility(View.GONE);
                 FragmentAboutUs fragmentAboutUs = new FragmentAboutUs();
                 pegarFragment(fragmentAboutUs,true);
+                toolbar.getMenu().getItem(0).setVisible(false);
                 break;
             case R.id.menuPrincipal_logout:
                 FirebaseAuth.getInstance().signOut();
                 actualizarInfoUsuario();
+                startActivity(new Intent(this,MainActivity.class));
                 Toast.makeText(this, "Sesión finalizada", Toast.LENGTH_SHORT).show();
                 break;
         }
@@ -235,18 +223,28 @@ public class MainActivity extends AppCompatActivity implements FragmentListaProd
     private void actualizarInfoUsuario(){
         try{
 
-
+            //apunto a la coleccion de users
             firestore.collection(COLLECTION_USERS)
+                    //apuntas al documento con el id del usuario que es unico
                     .document(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                    .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        Usuario usuario = task.getResult().toObject(Usuario.class);
-                        textViewUser.setText("Hola "+usuario.getNombre()+", mirá lo que llegó");
-                        textViewNombre.setText(usuario.getNombre()+" "+usuario.getApellido());
+                    // traes el documento entero
+                    .get()
+                    //como es un pedido a una base de dato es async entonces le ponesun succes listener
+                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                        @Override
+                        public void onSuccess(DocumentSnapshot documentSnapshot) {
+                            //te trae el json con la info del usuario
+                            Usuario usuario = documentSnapshot.toObject(Usuario.class);
+                            //si el usuario es distinto de nulo
+                                textViewUser.setText("Hola "+usuario.getNombre()+", mirá lo que llegó");
+                                textViewNombre.setText(usuario.getNombre()+" "+usuario.getApellido());
+                                    Glide.with(MainActivity.this)
+                                            .load(usuario.getImagenUrl())
+                                            .into(imageViewFoto);
+                                }
 
-                }
-            });
+
+                    });
 
         }catch(Exception e){
             Log.d("MOSTRAR USUARIO","como no hay usuario logueado, se muestra la info por defecto");

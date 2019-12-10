@@ -3,48 +3,47 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".view.FragmentPerfil"
     android:orientation="vertical"
     android:gravity="center">
 
 
-    <ImageView
-        android:id="@+id/fragmentPerfil_imageView_logo"
-        android:layout_width="200dp"
-        android:layout_height="70dp"
-        android:src="@drawable/logo"
-        android:layout_marginBottom="30dp">
-    </ImageView>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Modificar Perfil"
         android:gravity="center"
-        android:textSize="20sp"
+        android:textSize="22sp"
         android:textStyle="bold"
-        android:layout_marginBottom="30dp"/>
+        android:layout_marginBottom="30dp"
+        android:layout_marginTop="10dp"/>
 
-    <FrameLayout
+    <androidx.cardview.widget.CardView
         android:layout_width="160dp"
-        android:layout_height="160dp">
+        android:layout_height="160dp"
+        app:cardCornerRadius="20dp"
+        android:layout_marginBottom="30dp">
 
     <ImageView
         android:id="@+id/fragmentPerfil_imageView_foto"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center"
+        android:src="@mipmap/ic_person"/>
 
         <TextView
             android:id="@+id/fragmentPerfil_textView_editFoto"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="140dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="130dp"
             android:text="Editar foto"
             android:gravity="center"
-            android:textSize="14sp"
+            android:textSize="16sp"
+            android:textStyle="bold"
             android:background="#B9ADADAD"/>
 
-    </FrameLayout>
+    </androidx.cardview.widget.CardView>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/fragmentPerfil_textInputLayout_nombre"
@@ -77,29 +76,14 @@
             android:maxLines="1"/>
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/fragmentPerfil_textInputLayout_password"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/fragmentPerfil_textInputEditText_password"
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:hint="@string/contraseña"
-            android:inputType="textPassword"
-            android:maxLines="1"
-            android:imeOptions="actionGo"/>
-    </com.google.android.material.textfield.TextInputLayout>
-
     <Button
         android:id="@+id/fragmentPerfil_button_actualizar"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/colorToolbar"
         android:textColor="@color/colorBlanco"
-        android:layout_marginTop="10dp"
-        android:text="Ingresar"
+        android:layout_marginTop="20dp"
+        android:text="Actualizar"
         android:background="@drawable/rounded">
     </Button>
 

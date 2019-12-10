@@ -5,8 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center"
+    android:gravity="center_horizontal"
     tools:context=".view.LoginActivity">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
 
 
     <ImageView
@@ -14,7 +18,8 @@
         android:layout_width="200dp"
         android:layout_height="70dp"
         android:src="@drawable/logo"
-        android:layout_marginBottom="30dp">
+        android:layout_marginVertical="70dp">
+
     </ImageView>
 
     <com.google.android.material.textfield.TextInputLayout

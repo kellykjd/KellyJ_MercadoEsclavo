@@ -4,18 +4,12 @@ public class Usuario {
 
     private String nombre;
     private String apellido;
-    private String foto;
+    private String imagenUrl;
 
-    public Usuario(String nombre, String apellido, String foto) {
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.foto = foto;
-    }
 
     public Usuario(String nombre, String apellido) {
         this.nombre = nombre;
         this.apellido = apellido;
-        this.foto = foto;
     }
 
     public Usuario() {
@@ -37,11 +31,11 @@ public class Usuario {
         this.apellido = apellido;
     }
 
-    public String getFoto() {
-        return foto;
+    public String getImagenUrl() {
+        return imagenUrl;
     }
 
-    public void setFoto(String foto) {
-        this.foto = foto;
+    public void setImagenUrl(String imagenUrl) {
+        this.imagenUrl = imagenUrl;
     }
 }
