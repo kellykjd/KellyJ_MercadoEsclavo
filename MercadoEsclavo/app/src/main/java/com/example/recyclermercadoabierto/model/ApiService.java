@@ -13,9 +13,9 @@ public interface ApiService {
     @GET("/sites/MLA/search")
     Call<ContainerResultado> buscarPorPalabra(@Query("q") String unaPalabra, @Query ("limit")Integer limite);
 
-/*    //buscar descripcion de producto
+    //buscar descripcion de producto
     @GET("/items/{id}/descriptions")
-    Call<Descripcion> traerDescripcionItem(@Path("id") String idItem);*/
+    Call<List<Descripcion>> traerDescripcionItem(@Path("id") String idItem);
 
     @GET("/items/{id}")
     Call<Resultado> traerAtributos(@Path("id") String idItem);

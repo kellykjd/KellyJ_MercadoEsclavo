@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -14,26 +13,74 @@
         android:id="@+id/loginActivity_imageView_logo"
         android:layout_width="200dp"
         android:layout_height="70dp"
-        android:src="@drawable/logo">
+        android:src="@drawable/logo"
+        android:layout_marginBottom="30dp">
     </ImageView>
 
-    <EditText
-        android:id="@+id/loginActivity_editText_email"
-        android:layout_width="200dp"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/loginActivity_textInputLayout_nombre"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="Usuario"
-        android:textSize="16sp"
-        android:layout_marginTop="30dp"
-        android:maxLines="1"/>
+        android:visibility="gone">
 
-    <EditText
-        android:id="@+id/loginActivity_editText_password"
-        android:layout_width="200dp"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/loginActivity_textInputEditText_nombre"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/nombre"
+            android:textSize="16sp"
+            android:inputType="textPersonName"
+            android:maxLines="1"
+            android:visibility="gone"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/loginActivity_textInputLayout_apellido"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:hint="Password"
-        android:inputType="textPassword"
-        android:maxLines="1"/>
+        android:visibility="gone">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/loginActivity_textInputEditText_apellido"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/apellido"
+            android:textSize="16sp"
+            android:inputType="textPersonName"
+            android:maxLines="1"
+            android:visibility="gone"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/loginActivity_textInputLayout_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/loginActivity_textInputEditText_email"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/correo"
+            android:inputType="textEmailAddress"
+            android:maxLines="1"
+            android:textSize="16sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/loginActivity_textInputLayout_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/loginActivity_textInputEditText_password"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:hint="@string/contraseña"
+            android:inputType="textPassword"
+            android:maxLines="1"
+            android:imeOptions="actionGo"/>
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/loginActivity_button_ingresar"
@@ -45,16 +92,40 @@
         android:text="Ingresar"
         android:background="@drawable/rounded">
     </Button>
-
     <Button
-        android:id="@+id/loginActivity_button_registrarse"
+        android:id="@+id/loginActivity_button_registrate"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/colorToolbar"
         android:textColor="@color/colorBlanco"
         android:layout_marginTop="10dp"
-        android:text="Registrarse"
-        android:background="@drawable/rounded">
-    </Button>
+        android:text="Registrate"
+        android:background="@drawable/rounded"
+        android:visibility="gone"/>
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="30dp">
+
+    <TextView
+        android:id="@+id/loginActivity_textView_infoRegistrar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No tenés una cuenta? Registrate"
+        android:textSize="12sp" />
+    <TextView
+        android:id="@+id/loginActivity_textView_registrar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=" aquí."
+        android:textSize="12sp"
+        android:textStyle="bold"/>
+
+    </LinearLayout>
+
+
 
 </LinearLayout>

@@ -12,17 +12,24 @@ import androidx.fragment.app.FragmentTransaction;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.recyclermercadoabierto.R;
 import com.example.recyclermercadoabierto.model.Resultado;
+import com.example.recyclermercadoabierto.model.Usuario;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 public class MainActivity extends AppCompatActivity implements FragmentListaProductos.ListenerDeFragment,NavigationView.OnNavigationItemSelectedListener {
@@ -32,6 +39,10 @@ public class MainActivity extends AppCompatActivity implements FragmentListaProd
     private MaterialSearchView searchView;
     private LinearLayout textViewCinta;
     private TextView textViewUser;
+    private TextView textViewNombre;
+    private ImageView imageViewFoto;
+    private FirebaseFirestore firestore;
+    private static final String COLLECTION_USERS = "Usuarios";
 
     @SuppressLint("WrongConstant")
     @Override
@@ -40,15 +51,13 @@ public class MainActivity extends AppCompatActivity implements FragmentListaProd
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         encontrarVistas();
+        firestore= FirebaseFirestore.getInstance();
         setSupportActionBar(toolbar);
         searchView.setVoiceSearch(true);
         searchView.setCursorDrawable(R.drawable.color_cursor_white);
         cargarNavigationView();
         pegarFragment(new FragmentListaProductos(),false);
-        try{String usuario = FirebaseAuth.getInstance().getCurrentUser().getEmail();
-            textViewUser.setText("Hola "+usuario+", mirá lo que llegó");}catch(Exception e){
-            e.printStackTrace();
-        }
+        actualizarInfoUsuario();
 
         searchView.setVoiceSearch(true);
         searchView.setCursorDrawable(R.drawable.custom_cursor);
@@ -116,7 +125,6 @@ public class MainActivity extends AppCompatActivity implements FragmentListaProd
     }
 
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_toolbar,menu);
@@ -146,7 +154,10 @@ public class MainActivity extends AppCompatActivity implements FragmentListaProd
         Integer id = menuItem.getItemId();
         switch (id) {
             case R.id.menuPrincipal_perfil:
-                startActivity(new Intent(this,LoginActivity.class));
+
+                if(FirebaseAuth.getInstance().getCurrentUser()!=null){}else{
+                    pegarFragment(new FragmentPerfil(),false);
+                startActivity(new Intent(this,LoginActivity.class));}
                 break;
             case R.id.menuPrincipal_favoritos:
                 Toast.makeText(this, "Por programar", Toast.LENGTH_SHORT).show();
@@ -157,10 +168,9 @@ public class MainActivity extends AppCompatActivity implements FragmentListaProd
                 pegarFragment(fragmentAboutUs,true);
                 break;
             case R.id.menuPrincipal_logout:
-
-
-
-                Toast.makeText(this, "Por programar", Toast.LENGTH_SHORT).show();
+                FirebaseAuth.getInstance().signOut();
+                actualizarInfoUsuario();
+                Toast.makeText(this, "Sesión finalizada", Toast.LENGTH_SHORT).show();
                 break;
         }
         drawerLayout.closeDrawers();
@@ -188,6 +198,9 @@ public class MainActivity extends AppCompatActivity implements FragmentListaProd
         searchView = findViewById(R.id.search_view);
         textViewCinta = findViewById(R.id.mainActivity_cinta);
         textViewUser=findViewById(R.id.mainActivity_cinta_textViewUser);
+        View headerView = navigationView.getHeaderView(0);
+        textViewNombre=headerView.findViewById(R.id.headerNavigationView_textView_nombre);
+        imageViewFoto=headerView.findViewById(R.id.headerNavigationView_imageView_foto);
     }
 
     private void pegarFragment(Fragment fragment, Boolean addToBackStack){
@@ -203,7 +216,6 @@ public class MainActivity extends AppCompatActivity implements FragmentListaProd
 
     @Override
     public void recibirProducto(Resultado resultado) {
-
         FragmentDetalleProducto fragmentDetalleProducto =new FragmentDetalleProducto();
         Bundle bundle = new Bundle();
         bundle.putSerializable(FragmentDetalleProducto.CLAVE_PRODUCTO, resultado);
@@ -218,5 +230,36 @@ public class MainActivity extends AppCompatActivity implements FragmentListaProd
         fragmentListaProductos.setArguments(bundle);
         pegarFragment(fragmentListaProductos,true);
     }
+
+
+    private void actualizarInfoUsuario(){
+        try{
+
+
+            firestore.collection(COLLECTION_USERS)
+                    .document(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                    .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        Usuario usuario = task.getResult().toObject(Usuario.class);
+                        textViewUser.setText("Hola "+usuario.getNombre()+", mirá lo que llegó");
+                        textViewNombre.setText(usuario.getNombre()+" "+usuario.getApellido());
+
+                }
+            });
+
+        }catch(Exception e){
+            Log.d("MOSTRAR USUARIO","como no hay usuario logueado, se muestra la info por defecto");
+            textViewUser.setText("Hola, mirá lo que llegó");
+            textViewNombre.setText("Bienvenido");
+            navigationView.getMenu().getItem(0).setTitle("Iniciar sesión");
+        }
+    }
+
+
+
+
+
+
 
 }

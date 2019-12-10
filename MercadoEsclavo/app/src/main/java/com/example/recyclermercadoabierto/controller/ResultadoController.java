@@ -1,6 +1,7 @@
 package com.example.recyclermercadoabierto.controller;
 
 import com.example.recyclermercadoabierto.model.Atributo;
+import com.example.recyclermercadoabierto.model.Descripcion;
 import com.example.recyclermercadoabierto.model.Resultado;
 import com.example.recyclermercadoabierto.utils.ResultListener;
 import com.example.recyclermercadoabierto.model.PedidosDao;
@@ -29,6 +30,16 @@ public class ResultadoController {
             }
         });
 
+    }
+
+    public void buscarDescripcion(String unId, final ResultListener listenerDeLaVista){
+        PedidosDao pedidosDao=new PedidosDao();
+        pedidosDao.traerDescripcion(unId, new ResultListener<Descripcion>() {
+            @Override
+            public void finish(Descripcion results) {
+                listenerDeLaVista.finish(results);
+            }
+        });
     }
 
 

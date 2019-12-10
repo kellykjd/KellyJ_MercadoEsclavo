@@ -8,59 +8,35 @@ public class Producto  implements Serializable {
     private String id;
     private String site_id;
     private String title;
-    //private object subtitle;
     private Integer seller_id;
     private String category_id;
-    //private object official_store_id;
     private Integer price;
     private Integer base_price;
-    //private object original_price;
     private String currency_id;
     private Integer initial_quantity;
     private Integer available_quantity;
     private Integer sold_quantity;
-    //private List<Object> sale_terms;
     private String buying_mode;
     private String listing_type_id;
-    //private Date start_time;
-    //private Date stop_time;
     private String condition;
     private String permalink;
     private String thumbnail;
     private String secure_thumbnail;
     private List<Foto> pictures;
-    //private object video_id;
-    //private Descripcion descriptions;
     private Boolean accepts_mercadopago;
-    //private List<Object> non_mercado_pago_payment_methods;
-    //private Shipping shipping;
     private String international_delivery_mode;
-    //private SellerAddress seller_address;
-    //private object seller_contact;
-    //private Location location;
-    //private Geolocation geolocation;
-    //private List<Object> coverage_areas;
     private List<Atributo> attributes;
-    //private List<Object> warnings;
     private String listing_source;
-    //private List<Object> variations;
     private String status;
-    //private List<Object> sub_status;
-    //private List<Object> tags;
     private String warranty;
     private String catalog_product_id;
     private String domain_id;
-    //private object parent_item_id;
-    //private object differential_pricing;
-    //private List<Object> deal_ids;
     private Boolean automatic_relist;
-    //private Date date_created;
-    //private Date last_updated;
-    //private object health;
     private Boolean catalog_listing;
+    private List<Descripcion> descriptions;
 
 
-    public Producto(String id, String site_id, String title, Integer seller_id, String category_id, Integer price, Integer base_price, String currency_id, Integer initial_quantity, Integer available_quantity, Integer sold_quantity, String buying_mode, String listing_type_id, String condition, String permalink, String thumbnail, String secure_thumbnail, List<Foto> pictures, Boolean accepts_mercadopago, String international_delivery_mode, List<Atributo> attributes, String listing_source, String status, String warranty, String catalog_product_id, String domain_id, Boolean automatic_relist, Boolean catalog_listing) {
+    public Producto(String id, String site_id, String title, Integer seller_id, String category_id, Integer price, Integer base_price, String currency_id, Integer initial_quantity, Integer available_quantity, Integer sold_quantity, String buying_mode, String listing_type_id, String condition, String permalink, String thumbnail, String secure_thumbnail, List<Foto> pictures, Boolean accepts_mercadopago, String international_delivery_mode, List<Atributo> attributes, String listing_source, String status, String warranty, String catalog_product_id, String domain_id, Boolean automatic_relist, Boolean catalog_listing, List<Descripcion> descriptions) {
         this.id = id;
         this.site_id = site_id;
         this.title = title;
@@ -89,6 +65,7 @@ public class Producto  implements Serializable {
         this.domain_id = domain_id;
         this.automatic_relist = automatic_relist;
         this.catalog_listing = catalog_listing;
+        this.descriptions = descriptions;
     }
 
     public Producto() {
@@ -317,5 +294,13 @@ public class Producto  implements Serializable {
 
     public void setCatalog_listing(Boolean catalog_listing) {
         this.catalog_listing = catalog_listing;
+    }
+
+    public List<Descripcion> getDescriptions() {
+        return descriptions;
+    }
+
+    public void setDescriptions(List<Descripcion> descriptions) {
+        this.descriptions = descriptions;
     }
 }

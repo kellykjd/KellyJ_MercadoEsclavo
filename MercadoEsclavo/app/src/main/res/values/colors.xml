@@ -6,4 +6,5 @@
     <color name="colorBlanco">#FFFFFF</color>
     <color name="colorToolbar">#425AC8</color>
     <color name="colorCinta">#788CE8</color>
+    <color name="colorDisabled">#4D4D4D</color>
 </resources>

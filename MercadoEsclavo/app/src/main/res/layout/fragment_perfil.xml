@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.FragmentPerfil"
+    android:orientation="vertical"
+    android:gravity="center">
+
+
+    <ImageView
+        android:id="@+id/fragmentPerfil_imageView_logo"
+        android:layout_width="200dp"
+        android:layout_height="70dp"
+        android:src="@drawable/logo"
+        android:layout_marginBottom="30dp">
+    </ImageView>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Modificar Perfil"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="30dp"/>
+
+    <FrameLayout
+        android:layout_width="160dp"
+        android:layout_height="160dp">
+
+    <ImageView
+        android:id="@+id/fragmentPerfil_imageView_foto"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_gravity="center"/>
+
+        <TextView
+            android:id="@+id/fragmentPerfil_textView_editFoto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="140dp"
+            android:text="Editar foto"
+            android:gravity="center"
+            android:textSize="14sp"
+            android:background="#B9ADADAD"/>
+
+    </FrameLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/fragmentPerfil_textInputLayout_nombre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/fragmentPerfil_textInputEditText_nombre"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/nombre"
+            android:textSize="16sp"
+            android:inputType="textPersonName"
+            android:maxLines="1"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/fragmentPerfil_textInputLayout_apellido"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/fragmentPerfil_textInputEditText_apellido"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/apellido"
+            android:textSize="16sp"
+            android:inputType="textPersonName"
+            android:maxLines="1"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/fragmentPerfil_textInputLayout_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/fragmentPerfil_textInputEditText_password"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:hint="@string/contraseña"
+            android:inputType="textPassword"
+            android:maxLines="1"
+            android:imeOptions="actionGo"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/fragmentPerfil_button_actualizar"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorToolbar"
+        android:textColor="@color/colorBlanco"
+        android:layout_marginTop="10dp"
+        android:text="Ingresar"
+        android:background="@drawable/rounded">
+    </Button>
+
+
+</LinearLayout>

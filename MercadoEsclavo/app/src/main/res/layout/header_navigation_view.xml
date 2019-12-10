@@ -8,16 +8,17 @@
     android:paddingVertical="20dp">
 
     <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/headerNavigationView_imageView_foto"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:src="@mipmap/ic_person_round"/>
 
     <TextView
+        android:id="@+id/headerNavigationView_textView_nombre"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:gravity="center"
-        android:text="Kelly Jiménez"
         android:textColor="#FFFFFF"
         android:textSize="28sp"
         android:textStyle="bold"

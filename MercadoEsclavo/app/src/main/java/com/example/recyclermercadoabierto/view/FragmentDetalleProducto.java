@@ -17,6 +17,7 @@ import com.bumptech.glide.Glide;
 import com.example.recyclermercadoabierto.R;
 import com.example.recyclermercadoabierto.controller.ResultadoController;
 import com.example.recyclermercadoabierto.model.Atributo;
+import com.example.recyclermercadoabierto.model.Descripcion;
 import com.example.recyclermercadoabierto.model.Resultado;
 import com.example.recyclermercadoabierto.utils.ResultListener;
 
@@ -35,7 +36,7 @@ public class FragmentDetalleProducto extends Fragment implements AdapterAtributo
     private TextView textViewPrecio;
     private TextView textViewHayStock;
     private ImageView imageViewProducto;
-    //private TextView textViewDescripcion;
+    private TextView textViewDescripcion;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -47,7 +48,17 @@ public class FragmentDetalleProducto extends Fragment implements AdapterAtributo
             Bundle bundle = getArguments();
             Resultado resultadoSeleccionado =(Resultado)bundle.getSerializable(CLAVE_PRODUCTO);
             cargarProducto(view, resultadoSeleccionado);
-             return view;
+
+            imageViewProducto.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+
+
+
+            return view;
     }
 
     private void hayStock(Resultado resultado){
@@ -75,6 +86,18 @@ public class FragmentDetalleProducto extends Fragment implements AdapterAtributo
         recyclerView.setAdapter(adapterAtributos);
     }
 
+    private void mostrarDescripcion(String unId){
+        final ResultadoController resultadoController = new ResultadoController();
+
+        resultadoController.buscarDescripcion(unId, new ResultListener<Descripcion>() {
+            @Override
+            public void finish(Descripcion results) {
+                textViewDescripcion.setText(results.getPlain_text());
+            }
+        });
+
+    }
+
 
     private void encontrarVistas(View view){
         recyclerView =view.findViewById(R.id.fragmentDetalleProducto_recyclerView);
@@ -83,7 +106,7 @@ public class FragmentDetalleProducto extends Fragment implements AdapterAtributo
         textViewPrecio = view.findViewById(R.id.fragmentDetalleProducto_TextView_precio);
         imageViewProducto = view.findViewById(R.id.fragmentDetalleProducto_ImageView_foto);
         textViewHayStock = view.findViewById(R.id.fragmentDetalleProducto_TextView_hayStock);
-        //textViewDescripcion = view.findViewById(R.id.fragmentDetalleProducto_TextView_descripcion);
+        textViewDescripcion = view.findViewById(R.id.fragmentDetalleProducto_TextView_descripcion);
     }
 
     private void cargarProducto(View view, Resultado unResultado){
@@ -95,6 +118,8 @@ public class FragmentDetalleProducto extends Fragment implements AdapterAtributo
         hayStock(unResultado);
         textViewVendidos.setText(unResultado.getSold_quantity()+" vendidos");
         mostrarAtributos(unResultado.getId());
+        mostrarDescripcion(unResultado.getId());
+
     }
 
     @Override
