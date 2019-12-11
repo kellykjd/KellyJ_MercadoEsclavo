@@ -1,10 +1,10 @@
 package com.example.recyclermercadoabierto.view;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,12 +13,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 import com.example.recyclermercadoabierto.R;
 import com.example.recyclermercadoabierto.model.Usuario;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -31,7 +33,6 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -41,7 +42,7 @@ import static android.app.Activity.RESULT_OK;
 public class FragmentPerfil extends Fragment {
     private Uri uri;
     private static final String COLLECTION_USERS = "Usuarios";
-    private int PICK_IMAGE_REQUEST = 1;
+    private int ESCOGER_IMAGEN_REQUEST = 1;
     private FirebaseFirestore firestore;
     private FirebaseStorage storage;
     private FirebaseUser currentUser;
@@ -51,7 +52,9 @@ public class FragmentPerfil extends Fragment {
     private TextInputLayout textInputLayoutApellido;
     private TextInputEditText editTextNombre;
     private TextInputEditText editTextApellido;
-    private Button botonSubirImagen;
+    private Button botonActualizar;
+    private ProgressDialog progressDialog;
+
 
 
     @Override
@@ -59,28 +62,27 @@ public class FragmentPerfil extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_perfil, container, false);
+        encontrarVistas(view);
 
-        imageViewFoto = view.findViewById(R.id.fragmentPerfil_imageView_foto);
-        textViewEditarFoto = view.findViewById(R.id.fragmentPerfil_textView_editFoto);
-        botonSubirImagen = view.findViewById(R.id.fragmentPerfil_button_actualizar);
-        editTextNombre = view.findViewById(R.id.fragmentPerfil_textInputEditText_nombre);
-        editTextApellido = view.findViewById(R.id.fragmentPerfil_textInputEditText_apellido);
         storage = FirebaseStorage.getInstance();
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
         firestore = FirebaseFirestore.getInstance();
+        progressDialog= new ProgressDialog(getActivity());
 
         traerUsuarioLogueado();
 
         textViewEditarFoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                chooseImage();
+                escogerImagen();
             }
         });
 
-        botonSubirImagen.setOnClickListener(new View.OnClickListener() {
+        botonActualizar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                progressDialog.setMessage("Actualizando perfil");
+                progressDialog.show();
                 String nombreUsuario = editTextNombre.getText().toString();
                 String apellidoUsuario = editTextApellido.getText().toString();
                 Usuario usuario = new Usuario(nombreUsuario, apellidoUsuario);
@@ -88,66 +90,63 @@ public class FragmentPerfil extends Fragment {
                 cargarImagenAFirebase();
             }
         });
-
-
     return view;
 }
 
-    public void chooseImage() {
 
-        //tira un intent
-        Intent intent = new Intent();
-        //elije el tipo de intent que es en este caso es elegir una imagen
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        //el star image for result manda in intent a los perisfericos, el request code es lo que me perimite identificar de donde vino por si hago
-        //muchos en una misma activity
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+    private void encontrarVistas(View view){
+        imageViewFoto = view.findViewById(R.id.fragmentPerfil_imageView_foto);
+        textViewEditarFoto = view.findViewById(R.id.fragmentPerfil_textView_editFoto);
+        botonActualizar = view.findViewById(R.id.fragmentPerfil_button_actualizar);
+        textInputLayoutNombre = view.findViewById(R.id.fragmentPerfil_textInputLayout_nombre);
+        editTextNombre = view.findViewById(R.id.fragmentPerfil_textInputEditText_nombre);
+        textInputLayoutApellido = view.findViewById(R.id.fragmentPerfil_textInputLayout_apellido);
+        editTextApellido = view.findViewById(R.id.fragmentPerfil_textInputEditText_apellido);
     }
 
+    public void escogerImagen() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), ESCOGER_IMAGEN_REQUEST);
+
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        //super.onActivityResult(requestCode, resultCode, data);
-        // si el reques code es el del intent de la camara, y el result code es exitoso, y la data o la info de la dat no viene en null
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-
+        if (requestCode == ESCOGER_IMAGEN_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             uri = data.getData();
             try {
-                //uso una clase que me da android para tranformar el uri en un bitmap
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), uri);
-                //le seteo el bitmap al image view
-                imageViewFoto.setImageBitmap(bitmap);
-            } catch (IOException e) {
+                imageViewFoto.setImageURI(uri);
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }
 
     private void cargarImagenAFirebase() {
-        //creo una referencia en el storage, cada child es un carpeta y el child final es el nombre del archivo
         StorageReference path = storage.getReference().child("ProfilePics").child(currentUser.getUid());
-
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-
         try {
-
-
-        //agarra el bitmap del imagae view en forma de drawable
         Bitmap bm=((BitmapDrawable) imageViewFoto.getDrawable()).getBitmap();
-        //comprimer el bitmap
-        bm.compress(Bitmap.CompressFormat.JPEG,10,byteArrayOutputStream);
-        //lo Tranforma en un array de datos
+        bm.compress(Bitmap.CompressFormat.JPEG,100,byteArrayOutputStream);
         byte[] data = byteArrayOutputStream.toByteArray();
         UploadTask uploadTask = path.putBytes(data);
-        //intenta subir a la referencia que creamos la imagen como es asyncronico le creamos un on complete listener para ver que hace cunado termina
         uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                Toast.makeText(getActivity(), "imagen Cargada exitosamente", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Perfil actualizado", Toast.LENGTH_SHORT).show();
+                cargarImagenDelStorageAlDatabase();
+                getActivity().finish();
                 startActivity(new Intent(getActivity(),MainActivity.class));
             }
-        });}catch(Exception e){
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+        }catch(Exception e){
             e.printStackTrace();
         }
     }
@@ -159,9 +158,7 @@ public class FragmentPerfil extends Fragment {
                 .document(currentUser.getUid())
                 // le seteas el usuario, firestore ya sabe mapearlo y subirlo al json
                 .set(usuario);
-
-        cargarImagenDelStorageAlDatabase();
-
+        //cargarImagenDelStorageAlDatabase();
     }
 
     private void cargarImagenDelStorageAlDatabase() {

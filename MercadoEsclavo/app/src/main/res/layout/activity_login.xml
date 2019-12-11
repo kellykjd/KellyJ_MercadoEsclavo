@@ -86,7 +86,6 @@
             android:maxLines="1"
             android:imeOptions="actionGo"/>
     </com.google.android.material.textfield.TextInputLayout>
-
     <Button
         android:id="@+id/loginActivity_button_ingresar"
         android:layout_width="100dp"

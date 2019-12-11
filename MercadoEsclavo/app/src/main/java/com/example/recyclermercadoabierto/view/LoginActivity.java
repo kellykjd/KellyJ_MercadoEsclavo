@@ -2,7 +2,9 @@ package com.example.recyclermercadoabierto.view;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,18 +14,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.example.recyclermercadoabierto.R;
 import com.example.recyclermercadoabierto.model.Usuario;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 
@@ -48,6 +47,7 @@ public class LoginActivity extends AppCompatActivity {
     private Button botonRegistrate;
     private TextView textViewInfoRegistrar;
     private TextView textViewRegistrarse;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +57,8 @@ public class LoginActivity extends AppCompatActivity {
         encontrarVistas();
         mAuth = FirebaseAuth.getInstance();
         firestore = FirebaseFirestore.getInstance();
+        progressDialog= new ProgressDialog(this);
+
 
         textViewRegistrarse.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,6 +76,8 @@ public class LoginActivity extends AppCompatActivity {
                     crearUsuario(editTextEmail.getText().toString(), editTextPassword.getText().toString());
                 }            }
         });
+
+
         botonIngresar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -100,6 +104,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void crearUsuario(String email, String password){
+        progressDialog.setMessage("Registrando");
+        progressDialog.show();
         String nombre = editTextNombre.getText().toString();
         String apellido = editTextApellido.getText().toString();
         final Usuario usuario = new Usuario(nombre,apellido);
@@ -112,28 +118,29 @@ public class LoginActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("FirebaseLogin", "createUserWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            resetCampos();
-                            esconderCamposRegistro();
-
                             firestore.collection(COLLECTION_USERS)
                                     .document(user.getUid())
                                     .set(usuario);
 
-                            Toast.makeText(LoginActivity.this, "Registro exitoso. Inicie sesión para continuar.",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, "Registro exitoso. Inicie sesión para continuar.",Toast.LENGTH_LONG).show();
+                            resetCampos();
+                            esconderCamposRegistro();
 
-                        //updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w("FirebaseCreateUser", "createUserWithEmail:failure", task.getException());
                             Toast.makeText(LoginActivity.this, task.getException().getMessage(),
                                     Toast.LENGTH_SHORT).show();
                             //updateUI(null);
-                        }
+                        }progressDialog.dismiss();
                     }
+
                 });
     }
 
     private void ingresarUsuario(String email, String password){
+        progressDialog.setMessage("Iniciado sesión");
+        progressDialog.show();
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -142,14 +149,16 @@ public class LoginActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("firbaseLogin", "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
+
                             updateUI(user);
+
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w("FirebaseCreateUser", "signInWithEmail:failure", task.getException());
                             Toast.makeText(LoginActivity.this, task.getException().getMessage(),
                                     Toast.LENGTH_SHORT).show();
                             updateUI(null);
-                        }
+                        }progressDialog.dismiss();
                     }
                 });
     }
