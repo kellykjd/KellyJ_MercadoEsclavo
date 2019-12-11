@@ -67,7 +67,7 @@ public class FragmentListaProductos extends Fragment implements AdapterProductos
             }
         });
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),RecyclerView.VERTICAL,false));
         recyclerView.setAdapter(adapterProductos);
     }
 

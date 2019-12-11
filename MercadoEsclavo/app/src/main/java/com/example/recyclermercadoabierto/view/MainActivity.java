@@ -246,6 +246,27 @@ public class MainActivity extends AppCompatActivity implements FragmentListaProd
 
                     });
 
+
+
+
+
+/*
+            firestore.collection(COLLECTION_USERS)
+                    .document(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                    .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    Usuario usuario = task.getResult().toObject(Usuario.class);
+                    textViewUser.setText("Hola "+usuario.getNombre()+", mirá lo que llegó");
+                    textViewNombre.setText(usuario.getNombre()+" "+usuario.getApellido());
+                    Glide.with(MainActivity.this)
+                            .load(usuario.getImagenUrl())
+                            .into(imageViewFoto);
+
+                }
+            });
+            */
+
         }catch(Exception e){
             Log.d("MOSTRAR USUARIO","como no hay usuario logueado, se muestra la info por defecto");
             textViewUser.setText("Hola, mirá lo que llegó");

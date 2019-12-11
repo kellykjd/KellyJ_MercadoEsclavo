@@ -81,12 +81,11 @@ public class FragmentPerfil extends Fragment {
         botonSubirImagen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                cargarImagenAFirebase();
                 String nombreUsuario = editTextNombre.getText().toString();
                 String apellidoUsuario = editTextApellido.getText().toString();
                 Usuario usuario = new Usuario(nombreUsuario, apellidoUsuario);
                 guardarInfoUsuario(usuario);
-                startActivity(new Intent(getActivity(),MainActivity.class));
+                cargarImagenAFirebase();
             }
         });
 
@@ -146,6 +145,7 @@ public class FragmentPerfil extends Fragment {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 Toast.makeText(getActivity(), "imagen Cargada exitosamente", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getActivity(),MainActivity.class));
             }
         });}catch(Exception e){
             e.printStackTrace();
